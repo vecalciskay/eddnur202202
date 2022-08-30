@@ -5,13 +5,17 @@ import nur.p3.imagenes.modelo.Imagen;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class PanelImagen extends JPanel {
+public class PanelImagen extends JPanel implements PropertyChangeListener {
 
     private Imagen modelo;
 
     public PanelImagen(Imagen img) {
+
         modelo = img;
+        modelo.addListener(this);
     }
 
     @Override
@@ -32,5 +36,10 @@ public class PanelImagen extends JPanel {
 
         modelo.dibujar(g2d);
         g.drawImage(rsm, 0, 0, null);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        this.repaint();
     }
 }
