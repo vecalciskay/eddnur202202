@@ -1,5 +1,6 @@
 package nur.p3.imagenes.modelo;
 
+import nur.p3.imagenes.serviicios.IDibujable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 
-public class Imagen {
+public class Imagen implements IDibujable {
     private int ancho;
     private int alto;
 

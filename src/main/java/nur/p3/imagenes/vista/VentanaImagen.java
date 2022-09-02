@@ -1,5 +1,7 @@
 package nur.p3.imagenes.vista;
 
+import nur.p3.imagenes.modelo.Cuadrado;
+import nur.p3.imagenes.modelo.Escena;
 import nur.p3.imagenes.modelo.Imagen;
 import nur.p3.imagenes.transformaciones.AchicarX2;
 import nur.p3.imagenes.transformaciones.ITransformacion;
@@ -14,7 +16,8 @@ import java.io.File;
 
 public class VentanaImagen extends JFrame {
 
-    private Imagen modelo;
+    private Escena modelo;
+    private PanelImagen panel;
 
     public VentanaImagen() {
 
@@ -23,7 +26,7 @@ public class VentanaImagen extends JFrame {
 
         initMenu();
 
-        PanelImagen panel = new PanelImagen(modelo);
+        panel = new PanelImagen(modelo);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.getContentPane().add(panel, BorderLayout.CENTER);
@@ -67,12 +70,34 @@ public class VentanaImagen extends JFrame {
 
         menubar.add(menu);
 
+        // objetos
+        menu = new JMenu("Objetos");
+
+        menuitem = new JMenuItem("Cuadrado");
+
+        menuitem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mnuObjetos_Cuadrado();
+            }
+        });
+
+        menu.add(menuitem);
+
+        menubar.add(menu);
+
         this.setJMenuBar(menubar);
+    }
+
+    private void mnuObjetos_Cuadrado() {
+        Cuadrado c = new Cuadrado(50,50,100);
+        c.addListener(panel);
+        modelo.addCuadrado(c);
     }
 
     private void meuTranformacion_Achicar() {
         ITransformacion achicar = new AchicarX2();
-        achicar.transformar(modelo);
+        achicar.transformar(modelo.getImagen());
     }
 
     private void meuArchivo_Abrir() {
@@ -90,14 +115,14 @@ public class VentanaImagen extends JFrame {
 
 
         File archivoConImagen = inputFile.getSelectedFile();
-        modelo.cargarImagen(archivoConImagen);
+        modelo.getImagen().cargarImagen(archivoConImagen);
     }
 
     private void inicializarImagen() {
-        modelo = new Imagen(300,300);
+        modelo = new Escena();
 
         for (int i = 0; i < 300; i++) {
-            modelo.setColor(i, 100, 255,0,0);
+            modelo.getImagen().setColor(i, 100, 255,0,0);
         }
     }
 
