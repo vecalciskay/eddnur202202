@@ -52,6 +52,10 @@ public class Imagen implements IDibujable {
         observado.firePropertyChange("IMAGEN", true, false);
     }
 
+    public void cambiosRelizados() {
+        observado.firePropertyChange("IMAGEN", true, false);
+    }
+
     public int get(int i, int j) {
         return pixeles[i][j];
     }
