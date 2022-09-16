@@ -6,12 +6,12 @@ import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class Cuadrado extends Figura {
+public class Circulo extends Figura {
 
 
     protected int tamano;
 
-    public Cuadrado(int m, int n, int t){
+    public Circulo(int m, int n, int t){
         x = m;
         y = n;
         tamano = t;
@@ -24,7 +24,7 @@ public class Cuadrado extends Figura {
 
     @Override
     public void dibujar(Graphics g) {
-        g.fillRect(x,y,tamano,tamano);
+        g.fillOval(x,y,tamano,tamano);
     }
 
 
@@ -51,9 +51,20 @@ public class Cuadrado extends Figura {
         observado.firePropertyChange("CUADRADO", false, true);
     }
 
+    /**
+     * (x-a)^2 + (y-b)^2 < r^2
+     * @param x
+     * @param y
+     * @return
+     */
     @Override
     public boolean estaDentroDeLaFigura(int x, int y) {
-        return (x > getX() && x < (getX() + getTamano()) &&
-                y > getY() && y < (getY() + getTamano()));
+        double radio = (double)tamano / 2.0;
+        double cx = (double)this.x + radio;
+        double cy = (double)this.y + radio;
+
+        double izq = ((double)x - cx)*((double)x - cx) + ((double)y - cy)*((double)y - cy);
+        double der = radio * radio;
+        return (izq < der);
     }
 }

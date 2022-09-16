@@ -2,6 +2,7 @@ package nur.p3.imagenes.vista;
 
 import nur.p3.imagenes.modelo.Cuadrado;
 import nur.p3.imagenes.modelo.Escena;
+import nur.p3.imagenes.modelo.IFigura;
 import nur.p3.imagenes.modelo.Imagen;
 
 import javax.swing.*;
@@ -75,7 +76,7 @@ public class PanelImagen extends JPanel
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        Cuadrado m = modelo.getObjetoSeleccionado();
+        IFigura m = modelo.getObjetoSeleccionado();
         if (m != null) {
             m.moverA(e.getX(), e.getY());
         }

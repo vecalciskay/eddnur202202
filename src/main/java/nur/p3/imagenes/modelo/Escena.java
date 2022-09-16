@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Escena implements IDibujable {
     private Imagen imagen;
-    private ArrayList<Cuadrado> objetos;
+    private ArrayList<Figura> objetos;
 private PropertyChangeSupport observado;
 
     public Escena() {
@@ -32,7 +32,7 @@ private PropertyChangeSupport observado;
             g.drawImage(rsm, 0, 0, null);
         }
 
-        for (Cuadrado c : objetos) {
+        for (IFigura c : objetos) {
             c.dibujar(g);
         }
     }
@@ -45,7 +45,7 @@ private PropertyChangeSupport observado;
         this.imagen = imagen;
     }
 
-    public void addCuadrado(Cuadrado c) {
+    public void addFigura(Figura c) {
         objetos.add(c);
         observado.firePropertyChange("ESCENA", true, false);
     }
@@ -53,14 +53,14 @@ private PropertyChangeSupport observado;
     public void addListener(PanelImagen panelImagen) {
         observado.addPropertyChangeListener(panelImagen);
         this.imagen.addListener(panelImagen);
-        for (Cuadrado c:
+        for (IFigura c:
              objetos) {
             c.addListener(panelImagen);
         }
     }
 
-    public Cuadrado getObjetoSeleccionado() {
-        for (Cuadrado c:
+    public IFigura getObjetoSeleccionado() {
+        for (IFigura c:
              objetos) {
             if (c.isSeleccionado()) return c;
         }
@@ -68,19 +68,17 @@ private PropertyChangeSupport observado;
     }
 
     public void soltarObjeto() {
-        for (Cuadrado c:
+        for (IFigura c:
                 objetos) {
             c.setSeleccionado(false);
         }
     }
 
     public void seleccionarObjeto(int x, int y) {
-        for (Cuadrado c:
+        for (IFigura c:
              objetos) {
-            if (x > c.getX() && x < (c.getX() + c.getTamano()) &&
-                    y > c.getY() && y < (c.getY() + c.getTamano())) {
+            if (c.estaDentroDeLaFigura(x, y))
                 c.setSeleccionado(true);
-            }
         }
     }
 }

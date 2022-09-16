@@ -1,5 +1,6 @@
 package nur.p3.imagenes.vista;
 
+import nur.p3.imagenes.modelo.Circulo;
 import nur.p3.imagenes.modelo.Cuadrado;
 import nur.p3.imagenes.modelo.Escena;
 import nur.p3.imagenes.modelo.Imagen;
@@ -94,19 +95,32 @@ public class VentanaImagen extends JFrame {
         menu = new JMenu("Objetos");
 
         menuitem = new JMenuItem("Cuadrado");
-
         menuitem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mnuObjetos_Cuadrado();
             }
         });
+        menu.add(menuitem);
 
+        menuitem = new JMenuItem("Circulo");
+        menuitem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mnuObjetos_Circulo();
+            }
+        });
         menu.add(menuitem);
 
         menubar.add(menu);
 
         this.setJMenuBar(menubar);
+    }
+
+    private void mnuObjetos_Circulo() {
+        Circulo c = new Circulo(50,50,100);
+        c.addListener(panel);
+        modelo.addFigura(c);
     }
 
     private void mnuVer_Histograma() {
@@ -157,7 +171,7 @@ public class VentanaImagen extends JFrame {
     private void mnuObjetos_Cuadrado() {
         Cuadrado c = new Cuadrado(50,50,100);
         c.addListener(panel);
-        modelo.addCuadrado(c);
+        modelo.addFigura(c);
     }
 
     private void meuArchivo_Abrir() {
