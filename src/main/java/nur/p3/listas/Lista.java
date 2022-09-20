@@ -1,6 +1,8 @@
 package nur.p3.listas;
 
-public class Lista<E> {
+import java.util.Iterator;
+
+public class Lista<E> implements Iterable<E> {
     private Nodo<E> raiz;
     private int tamano;
     public Lista() {
@@ -22,6 +24,24 @@ public class Lista<E> {
         nuevo.setSiguiente(this.raiz);
         raiz = nuevo;
         tamano++;
+    }
+
+    public void eliminar(int pos) {
+        if (pos == 0) {
+            raiz = raiz.getSiguiente();
+            tamano--;
+            return;
+        }
+
+        int i = 0;
+        Nodo<E> actual = raiz;
+        while(i < pos-1) {
+            actual = actual.getSiguiente();
+            i++;
+        }
+
+        actual.setSiguiente(actual.getSiguiente().getSiguiente());
+        tamano--;
     }
 
     @Override
@@ -59,6 +79,11 @@ public class Lista<E> {
         return actual.getContenido();
     }
 
+    @Override
+    public Iterator<E> iterator() {
+        return new IteradorLista<>(raiz);
+    }
+
     class Nodo<E> {
         private E contenido;
         private Nodo<E> siguiente;
@@ -82,6 +107,32 @@ public class Lista<E> {
 
         public void setSiguiente(Nodo<E> siguiente) {
             this.siguiente = siguiente;
+        }
+    }
+
+    class IteradorLista<E> implements Iterator<E> {
+
+        private Nodo<E> siguiente;
+
+        public IteradorLista(Nodo<E> actual) {
+            this.siguiente = actual;
+        }
+
+
+        @Override
+        public boolean hasNext() {
+            return siguiente != null;
+        }
+
+        @Override
+        public E next() {
+            E c = siguiente.getContenido();
+            siguiente = siguiente.getSiguiente();
+            return c;
+        }
+
+        @Override
+        public void remove() {
         }
     }
 }
