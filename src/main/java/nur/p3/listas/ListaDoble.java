@@ -5,6 +5,7 @@ import java.util.Iterator;
 public class ListaDoble<E> implements Iterable<E>{
 
     private Nodo<E> raiz;
+    private Nodo<E> cola;
     private int tamano;
 
     @Override
@@ -82,13 +83,24 @@ public class ListaDoble<E> implements Iterable<E>{
     public ListaDoble() {
         this.tamano = 0;
         this.raiz = null;
+        this.cola = null;
     }
 
     public void insertar(E o) {
         Nodo<E> nuevo = new Nodo(o);
         nuevo.setSiguiente(raiz);
-        raiz.setAnterior(nuevo);
+        if (raiz != null)
+            raiz.setAnterior(nuevo);
         raiz = nuevo;
+        tamano++;
+    }
+
+    public void adicionar(E o) {
+        Nodo<E> nuevo = new Nodo(o);
+        nuevo.setAnterior(cola);
+        if (cola != null)
+            cola.setSiguiente(nuevo);
+        cola = nuevo;
         tamano++;
     }
 
@@ -104,8 +116,27 @@ public class ListaDoble<E> implements Iterable<E>{
         return tamano;
     }
 
-    public void setTamano(int tamano) {
-        this.tamano = tamano;
+
+    public void eliminar(int pos) {
+        if (pos == 0) {
+            raiz = raiz.getSiguiente();
+            if (raiz != null)
+                raiz.setAnterior(null);
+            tamano--;
+            return;
+        }
+
+        int i = 0;
+        Nodo<E> actual = raiz;
+        while(i < pos-1) {
+            actual = actual.getSiguiente();
+            i++;
+        }
+
+        actual.setSiguiente(actual.getSiguiente().getSiguiente());
+        if (actual.getSiguiente() != null)
+            actual.getSiguiente().setAnterior(actual);
+        tamano--;
     }
 
     @Override

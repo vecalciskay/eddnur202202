@@ -7,6 +7,20 @@ import org.junit.jupiter.api.Test;
 public class ListaTest {
 
     @Test
+    void adicionarTres() {
+        // Arrange
+        Lista<String> l = new Lista();
+
+        l.adicionar("Hugo");
+        l.adicionar("Paco");
+        l.adicionar("Luis");
+
+        // Assert
+        Assertions.assertEquals(3, l.getTamano());
+        Assertions.assertEquals("Hugo -> Paco -> Luis", l.toString());
+    }
+
+    @Test
     void InsertarTresYEloiminarUno() {
         // Arrange
         Lista<String> l = new Lista();

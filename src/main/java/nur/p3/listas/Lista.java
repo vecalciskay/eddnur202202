@@ -3,8 +3,8 @@ package nur.p3.listas;
 import java.util.Iterator;
 
 public class Lista<E> implements Iterable<E> {
-    private Nodo<E> raiz;
-    private int tamano;
+    protected Nodo<E> raiz;
+    protected int tamano;
     public Lista() {
         raiz = null;
         tamano = 0;
@@ -23,6 +23,21 @@ public class Lista<E> implements Iterable<E> {
         Nodo<E> nuevo = new Nodo(o);
         nuevo.setSiguiente(this.raiz);
         raiz = nuevo;
+        tamano++;
+    }
+
+    public void adicionar(E o) {
+        if (tamano == 0) {
+            insertar(o);
+            return;
+        }
+        Nodo<E> nuevo = new Nodo(o);
+        Nodo<E> actual = raiz;
+        while(actual.getSiguiente() != null) {
+            actual = actual.getSiguiente();
+        }
+
+        actual.setSiguiente(nuevo);
         tamano++;
     }
 
