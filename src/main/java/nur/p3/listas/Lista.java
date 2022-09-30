@@ -59,6 +59,20 @@ public class Lista<E> implements Iterable<E> {
         tamano--;
     }
 
+    public E buscar(E o) {
+        Nodo<E> actual = raiz;
+        while(actual != null) {
+            if (actual.getContenido() == o)
+                break;
+            actual = actual.getSiguiente();
+        }
+
+        if(actual != null)
+            return actual.getContenido();
+
+        return null;
+    }
+
     @Override
     public String toString() {
         if (raiz == null)
