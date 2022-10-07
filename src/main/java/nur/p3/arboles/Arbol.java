@@ -2,6 +2,8 @@ package nur.p3.arboles;
 
 import nur.p3.listas.Lista;
 
+import java.awt.*;
+
 public class Arbol<E> {
     private Nodo<E> raiz;
 
@@ -33,7 +35,15 @@ public class Arbol<E> {
         return raiz.toString();
     }
 
-    class Nodo<E> {
+    public Nodo<E> getRaiz() {
+        return raiz;
+    }
+
+    public void setRaiz(Nodo<E> raiz) {
+        this.raiz = raiz;
+    }
+
+    public static class Nodo<E> {
         private E contenido;
         private String identificador;
         private Lista<Nodo<E>> hijos;
