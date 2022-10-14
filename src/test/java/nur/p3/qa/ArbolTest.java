@@ -31,4 +31,42 @@ public class ArbolTest {
         // Assert
         Assertions.assertEquals("A->(B->(E,F),C)", s);
     }
+
+    @Test
+    void recorrerBFS() {
+        Arbol<String> a = new Arbol<>();
+        a.anadir("A", "A", null);
+        a.anadir("B", "B", "A");
+        a.anadir("C", "C", "A");
+        a.anadir("D", "D", "A");
+        a.anadir("E", "E", "B");
+        a.anadir("F", "F", "B");
+        a.anadir("G", "G", "B");
+        a.anadir("H", "H", "D");
+        a.anadir("I", "I", "D");
+        a.anadir("J", "J", "H");
+        a.anadir("K", "K", "H");
+
+        String bfs = a.bfs();
+        Assertions.assertEquals("A,D,C,B,I,H,G,F,E,K,J", bfs);
+    }
+
+    @Test
+    void recorrerDFS() {
+        Arbol<String> a = new Arbol<>();
+        a.anadir("A", "A", null);
+        a.anadir("B", "B", "A");
+        a.anadir("C", "C", "A");
+        a.anadir("D", "D", "A");
+        a.anadir("E", "E", "B");
+        a.anadir("F", "F", "B");
+        a.anadir("G", "G", "B");
+        a.anadir("H", "H", "D");
+        a.anadir("I", "I", "D");
+        a.anadir("J", "J", "H");
+        a.anadir("K", "K", "H");
+
+        String dfs = a.dfs();
+        Assertions.assertEquals("A,B,E,F,G,C,D,H,J,K,I", dfs);
+    }
 }

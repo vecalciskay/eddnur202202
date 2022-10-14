@@ -1,6 +1,8 @@
 package nur.p3.arboles;
 
+import nur.p3.listas.Cola;
 import nur.p3.listas.Lista;
+import nur.p3.listas.Pila;
 
 import java.awt.*;
 
@@ -43,17 +45,93 @@ public class Arbol<E> {
         this.raiz = raiz;
     }
 
+    public void resetVisita() {
+        Nodo<E> actual = raiz;
+        resetVisita(actual);
+    }
+
+    private void resetVisita(Nodo<E> actual) {
+        actual.resetVisita();
+        for (Nodo<E> hijo:
+             actual.getHijos()) {
+            resetVisita(hijo);
+        }
+    }
+
+    public String bfs() {
+        StringBuilder result = new StringBuilder();
+        String separador = "";
+        Cola<Nodo<E>> visita = new Cola<>();
+        visita.push(raiz);
+
+        while(visita.getTamano() > 0) {
+            Nodo<E> aVisitar = visita.pull();
+            aVisitar.visitar();
+            result.append(separador).append(aVisitar.getIdentificador());
+            separador = ",";
+
+            Lista<Nodo<E>> nodosAMeterEnLista =
+                    aVisitar.getHijosNoVisitadosYNoEnLista(visita);
+
+            for (Nodo<E> hijo:
+                 nodosAMeterEnLista) {
+                visita.push(hijo);
+            }
+        }
+
+        return result.toString();
+    }
+
+    public String dfs() {
+        StringBuilder result = new StringBuilder();
+        String separador = "";
+        Pila<Nodo<E>> visita = new Pila<>();
+        visita.push(raiz);
+
+        while(visita.getTamano() > 0) {
+            Nodo<E> aVisitar = visita.pop();
+            aVisitar.visitar();
+            result.append(separador).append(aVisitar.getIdentificador());
+            separador = ",";
+
+            Lista<Nodo<E>> nodosAMeterEnLista =
+                    aVisitar.getHijosNoVisitadosYNoEnLista(visita);
+
+            for (Nodo<E> hijo:
+                    nodosAMeterEnLista) {
+                visita.push(hijo);
+            }
+        }
+
+        return result.toString();
+    }
+
+
     public static class Nodo<E> {
         private E contenido;
         private String identificador;
         private Lista<Nodo<E>> hijos;
         private Nodo<E> padre;
+        private int visitado;
 
         public Nodo(String id, E o) {
             identificador = id;
             contenido = o;
             hijos = new Lista<>();
             padre = null;
+            visitado = 0;
+        }
+
+        public int getVisitado() {
+            return visitado;
+        }
+
+        public void visitar() {
+            this.visitado += 1;
+        }
+
+        public void resetVisita() {
+            this.visitado = 0;
         }
 
         public E getContenido() {
@@ -119,6 +197,26 @@ public class Arbol<E> {
             resultado.append(")");
 
             return resultado.toString();
+        }
+
+        public Lista<Nodo<E>> getHijosNoVisitadosYNoEnLista(Lista<Nodo<E>> visita) {
+            Lista<Nodo<E>> result = new Lista<>();
+            for (Nodo<E> hijo:
+                 hijos) {
+                boolean enLista = false;
+                for (Nodo<E> nodo:
+                     visita) {
+                    if (hijo.getIdentificador().equals(nodo.getIdentificador())) {
+                        enLista = true;
+                        break;
+                    }
+                }
+                if (hijo.getVisitado() == 0 && !enLista) {
+                    result.insertar(hijo);
+                }
+            }
+
+            return result;
         }
     }
 }
