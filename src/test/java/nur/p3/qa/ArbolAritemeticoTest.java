@@ -43,4 +43,46 @@ public class ArbolAritemeticoTest {
 
         Assertions.assertEquals("(3.0+(7.0-5.0))=5.0",completo);
     }
+
+    @Test
+    void leerExpresionSimple() {
+        ArbolAritmetico a = null;
+        try {
+            a = new ArbolAritmetico("(     (2+1   ))");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String expresion = a.toString();
+        double resultado = 0;
+        try {
+            resultado = a.evaluar();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        String completo = expresion + "=" + String.valueOf(resultado);
+
+        Assertions.assertEquals("(2.0+1.0)=3.0",completo);
+    }
+
+    @Test
+    void leerExpresionCompleja() {
+        ArbolAritmetico a = null;
+        try {
+            a = new ArbolAritmetico("  (   (3*(  2+1  )  )/2)");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String expresion = a.toString();
+        double resultado = 0;
+        try {
+            resultado = a.evaluar();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        String completo = expresion + "=" + String.valueOf(resultado);
+
+        Assertions.assertEquals("((3.0*(2.0+1.0))/2.0)=4.5",completo);
+    }
 }
