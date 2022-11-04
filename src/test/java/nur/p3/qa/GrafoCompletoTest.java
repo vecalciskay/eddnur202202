@@ -1,6 +1,7 @@
 package nur.p3.qa;
 
 import nur.p3.grafos.GrafoCompleto;
+import nur.p3.listas.Lista;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -44,5 +45,34 @@ public class GrafoCompletoTest {
         String resultado = g.toString();
 
         Assertions.assertEquals("A-1->I\nB-1->U\nR-3->X\nS-1->R\nX-5->B\nX-2->U\nI-4->A\nM-3->S\nM-2->B\nM-1->U\nM-1->X\n", resultado);
+    }
+
+    @Test
+    void dijkstraGrafoCompleto() {
+        GrafoCompleto<String> g = new GrafoCompleto<>();
+        g.anadirNodo("A", "Nodo A");
+        g.anadirNodo("B", "Nodo B");
+        g.anadirNodo("C", "Nodo C");
+        g.anadirNodo("D", "Nodo D");
+        g.anadirNodo("E", "Nodo E");
+        g.anadirNodo("F", "Nodo F");
+        g.anadirNodo("G", "Nodo G");
+
+        g.conectar("A", "B", 8, true);
+        g.conectar("A", "C", 5, true);
+        g.conectar("B", "D", 3, true);
+        g.conectar("B", "E", 8, true);
+        g.conectar("C", "D", 7, true);
+        g.conectar("C", "F", 10, true);
+        g.conectar("D", "E", 4, true);
+        g.conectar("D", "F", 3, true);
+        g.conectar("E", "G", 6, true);
+        g.conectar("F", "G", 6, true);
+
+        String resultado = g.toString();
+
+        Lista<String> camino = g.dijkstra("A", "G");
+
+        Assertions.assertEquals("A -> B -> D -> F -> G", camino.toString());
     }
 }

@@ -21,9 +21,16 @@ public class GrafoCompleto<E> {
     }
 
     public void conectar(String idDesde, String idHacia, int peso) {
+        conectar(idDesde, idHacia, peso, false);
+    }
+
+    public void conectar(String idDesde, String idHacia, int peso, boolean bidireccional) {
         Nodo<E> desde = nodos.get(idDesde);
         Nodo<E> hacia = nodos.get(idHacia);
         desde.anadirSaliente(hacia, peso);
+        if (bidireccional) {
+            hacia.anadirSaliente(desde, peso);
+        }
     }
 
     @Override
@@ -33,6 +40,68 @@ public class GrafoCompleto<E> {
             sb.append(nodo.toString());
         }
         return sb.toString();
+    }
+
+    public Lista<String> dijkstra(String origen, String destino) {
+        HashMap<String,Integer> distancias = new HashMap<>();
+        HashMap<String,String> anteriores = new HashMap<>();
+        Lista<String> noVisitados = new Lista<>(); // Este es el conjunto Q
+
+        for (String id: nodos.keySet()) {
+            distancias.put(id, Integer.MAX_VALUE);
+            noVisitados.insertar(id);
+        }
+        
+        distancias.put(origen, 0);
+        
+        while (noVisitados.getTamano() > 0) {
+            String u = encontrarNodoConDistanciaMenor(distancias, noVisitados);
+            quitarDeNoVisitados(noVisitados, u);
+
+            if (u.equals(destino)) {
+                return reconstruirCamino(anteriores, destino, origen);
+            }
+
+            Nodo<E> nodoU = nodos.get(u);
+            for (Arco<E> saliente: nodoU.getSalientes()) {
+                String v = saliente.getHacia().getId();
+                int alt = distancias.get(u) + saliente.getPeso();
+                if (alt < distancias.get(v)) {
+                    distancias.put(v, alt);
+                    anteriores.put(v, u);
+                }
+            }
+        }
+        return null;
+    }
+
+    private Lista<String> reconstruirCamino(HashMap<String, String> anteriores,
+                                            String destino, String origen) {
+        Lista<String> camino = new Lista<>();
+        String actual = destino;
+        while (actual != origen) {
+            camino.insertar(actual);
+            actual = anteriores.get(actual);
+        }
+        camino.insertar(origen);
+        return camino;
+    }
+
+    private void quitarDeNoVisitados(Lista<String> noVisitados, String u) {
+        noVisitados.eliminar(u);
+    }
+
+    private String encontrarNodoConDistanciaMenor(HashMap<String, Integer> distancias, Lista<String> noVisitados) {
+        String nodoConDistanciaMenor = null;
+        int distanciaMenor = Integer.MAX_VALUE;
+        for (String id: noVisitados) {
+            int distancia = distancias.get(id);
+            if (distancia < distanciaMenor) {
+                distanciaMenor = distancia;
+                nodoConDistanciaMenor = id;
+            }
+        }
+        return nodoConDistanciaMenor;
     }
 
     class Nodo<E> {
@@ -78,6 +147,10 @@ public class GrafoCompleto<E> {
 
         public String getId() {
             return id;
+        }
+
+        public Lista<Arco<E>> getSalientes() {
+            return salientes;
         }
     }
 

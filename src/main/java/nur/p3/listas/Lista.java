@@ -59,6 +59,25 @@ public class Lista<E> implements Iterable<E> {
         tamano--;
     }
 
+    public void eliminar(E o){
+        if (raiz == null)
+            return;
+        if (raiz.getContenido().equals(o)) {
+            raiz = raiz.getSiguiente();
+            tamano--;
+            return;
+        }
+        Nodo<E> anterior = raiz;
+        while(anterior.getSiguiente() != null) {
+            if (anterior.getSiguiente().getContenido().equals(o)) {
+                anterior.setSiguiente(anterior.getSiguiente().getSiguiente());
+                tamano--;
+                return;
+            }
+            anterior = anterior.getSiguiente();
+        }
+    }
+
     public E buscar(E o) {
         Nodo<E> actual = raiz;
         while(actual != null) {
