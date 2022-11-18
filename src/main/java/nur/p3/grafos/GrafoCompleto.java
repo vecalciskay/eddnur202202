@@ -42,6 +42,36 @@ public class GrafoCompleto<E> {
         return sb.toString();
     }
 
+    /**
+     * El algoritmo de Dijkstra es un algoritmo de búsqueda de caminos más cortos
+     * en grafos dirigidos con pesos no negativos.
+     * El algoritmo es el siguiente:
+     * <ol>
+     *     <li>Se inicializa un conjunto noVisitados (Q) de
+     *     nodos no visitados.</li>
+     *     <li>Se crea un conjunto de distancias con el valor infinito de
+     *      distancia para cada uno de los nodos en Q</li>
+     *      <li>Se crea un conjunto de anteriores que inicialmente está vacío</li>
+     *      <li>La distancia al nodo origen se coloca a 0</li>
+     *      <li>Mientras el conjunto noVisitados no esté vacío
+     *          <ol>
+     *              <li>Se elige el nodo no visitado con la distancia más corta</li>
+     *              <li>Se elimina el nodo de noVisitados</li>
+     *              <li>Si el nodo a visitar es el nodo destino, entonces formar el
+     *              camino y salir</li>
+     *              <li>Se recorren los nodos adyacentes al nodo que se visita</li>
+     *              <li>Para cada nodo adyacente se calcula la distancia a ese nodo
+     *              adyacente sumado al peso del nodo a visitar y este adyacente</li>
+     *              <li>Si la distancia calculada es menor que la distancia que se
+     *              tenía hasta el momento, se actualiza la distancia y se actualiza
+     *              el nodo anterior</li>
+     *          </ol>
+     *      </li>
+     * </ol>
+     * @param origen El identificador del nodo origen
+     * @param destino El identificador del nodo destino
+     * @return
+     */
     public Lista<String> dijkstra(String origen, String destino) {
         HashMap<String,Integer> distancias = new HashMap<>();
         HashMap<String,String> anteriores = new HashMap<>();

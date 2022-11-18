@@ -52,7 +52,7 @@ public class Circulo extends Figura {
     }
 
     /**
-     * (x-a)^2 + (y-b)^2 < r^2
+     * (x-a)<sup>2</sup> + (y-b)<sup>2</sup> &lt; r<sup>2</sup>
      * @param x
      * @param y
      * @return
